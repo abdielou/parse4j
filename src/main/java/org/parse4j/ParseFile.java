@@ -26,7 +26,7 @@ public class ParseFile {
 	private static Logger LOGGER = LoggerFactory.getLogger(ParseFile.class);
 
 	private String endPoint;
-	private boolean uplodated = false;
+	private boolean uploaded = false;
 	private boolean dirty = false;
 	private String name = null;
 	private String url = null;
@@ -113,7 +113,7 @@ public class ParseFile {
 	}
 	
 	public boolean isUploaded() {
-		return uplodated;
+		return uploaded;
 	}
 
 	public void save() throws ParseException {
@@ -156,7 +156,7 @@ public class ParseFile {
 			this.name = jsonResponse.getString("name");
 			this.url = jsonResponse.getString("url");
 			this.dirty = false;
-			this.uplodated = true;
+			this.uploaded = true;
 			
 		}
 		else {
