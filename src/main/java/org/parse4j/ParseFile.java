@@ -66,10 +66,17 @@ public class ParseFile {
 	public ParseFile(byte[] data, String contentType) {
 		this(null, data, contentType);
 	}
-	
+
 	public ParseFile(String name, String url) {
 		this.name = name;
 		this.url = url;
+	}
+
+	// Useful for remote deserialized objects as they obviously were uploaded
+	public ParseFile(String name, String url, boolean uploaded) {
+		this.name = name;
+		this.url = url;
+		this.uploaded = uploaded;
 	}
 
 	public boolean isDirty() {

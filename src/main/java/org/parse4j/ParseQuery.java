@@ -736,9 +736,8 @@ public class ParseQuery<T extends ParseObject> {
 		if(clazz != null) {
 			T po = (T) clazz.newInstance();
 			/*
-			We disable some checks while setting data in objects during fetch because
-			those checks are useful only when setting data from client
-			code. The "true" argument disables such checks.
+			This is a remote object being deserialized. For some objects
+			this is an important bit of information to properly deserialize.
 			*/
 			po.setData(obj, true);
 			return po;

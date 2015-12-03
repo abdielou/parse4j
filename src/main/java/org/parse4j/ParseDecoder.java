@@ -15,8 +15,11 @@ import org.parse4j.operation.ParseFieldOperations;
 
 public class ParseDecoder {
 
-	@SuppressWarnings("rawtypes")
 	public static Object decode(Object object) {
+		return decode(object,false);
+	}
+	@SuppressWarnings("rawtypes")
+	public static Object decode(Object object, boolean remote) {
 
 		if ((object instanceof JSONArray)) {
 			return convertJSONArrayToList((JSONArray) object);
@@ -34,7 +37,7 @@ public class ParseDecoder {
 		}
 
 		if(typeString.equals("Object")){
-			return decodeObject(jsonObject);
+			return decodeObject(jsonObject,remote);
 		}
 
 		if (typeString.equals("Date")) {
@@ -53,6 +56,10 @@ public class ParseDecoder {
 		}
 
 		if (typeString.equals("File")) {
+			if(remote){ // This object was deserialized
+				return new ParseFile(jsonObject.optString("name"),
+						jsonObject.optString("url"), true);
+			}
 			return new ParseFile(jsonObject.optString("name"),
 					jsonObject.optString("url"));
 		}
@@ -85,12 +92,15 @@ public class ParseDecoder {
 		
 	}
 
-	private static ParseObject decodeObject (JSONObject object)  {
+    private static ParseObject decodeObject (JSONObject object)  {
+        return decodeObject(object,false);
+    }
+    private static ParseObject decodeObject (JSONObject object, boolean remote)  {
 		ParseObject po = ParseObject.createWithoutData(object.getString("className"), object.getString("objectId"));
 		object.remove("className");
 		object.remove("objectId");
 		object.remove("__type");
-		po.setData(object);
+		po.setData(object,remote);
 		return po;
 	}
 
